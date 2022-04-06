@@ -141,7 +141,7 @@ getPerformanceMetrics <- function(data_pred, # data frame with all predictions
 #set option: race or no race model
 option <- "birthNoRace"
 model_dir <- getwd()
-model_file_name <- paste0(option,"-PRO_PLACED_3YEARS-Lasso-Weighted-SiblingBlocked.rds")
+model_file_name <- paste0(option,"-PRO_PLACED_3YEARS-Lasso-Weighted-SiblingBlocked_reduced.rds")
 model_rdata_file <- file.path(model_dir, model_file_name)
 
 model_object <- readRDS(model_rdata_file)
