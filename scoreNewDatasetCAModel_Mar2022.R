@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------
 # Autor: K.Taskova
-# Revised by Eunhye Ahn for distribution (March 2022)
+# Revised by Eunhye Ahn for distribution (May 2022)
 # Descripcion: Generate scores on a new set given model and score rules
 # Creado: June 2019 
 # ------------------------------------------------------------------------------
@@ -9,9 +9,15 @@
 # Assumptions:
 # 1) You are located in the working directory where folder 'R' with this script
 #    exists
-# 2) In the same directory, there is 'processed_data' directory
-#    where the models and data files are located. If this is not the case, then
+# 2) In the same directory, the models and data files are located. If this is not the case, then
 #    set the corresponding variables in the script to point to the right file paths
+
+library("readstata13")
+library("ggplot2")
+library("magrittr")
+library("dplyr")
+library("knitr")
+library("kableExtra")
 
 # Load custom functions
 # Save the file "customFunctionsNew.R" in the same folder
@@ -129,8 +135,6 @@ getPerformanceMetrics <- function(data_pred, # data frame with all predictions
   return(out)
 }
 
-
-
 # ------------------------------------------------------------------------------
 # MAIN CODE
 # ------------------------------------------------------------------------------
@@ -141,9 +145,8 @@ getPerformanceMetrics <- function(data_pred, # data frame with all predictions
 #set option: race or no race model
 option <- "birthNoRace"
 model_dir <- getwd()
-model_file_name <- paste0(option,"-PRO_PLACED_3YEARS-Lasso-Weighted-SiblingBlocked_reduced.rds")
+model_file_name <- paste0(option,"-PRO_PLACED_3YEARS-Lasso-Weighted-SiblingBlocked_woTrainingData.rds")
 model_rdata_file <- file.path(model_dir, model_file_name)
-
 model_object <- readRDS(model_rdata_file)
 
 # Set the full path to the model-specific score rules files
@@ -151,17 +154,12 @@ model_object <- readRDS(model_rdata_file)
 # - no changes have been  done to the naming process
 # - the file is in he same folder as the model file
 model_name <- gsub(".rds", "", model_file_name)
-model_score_rules_file_name <-  sprintf("%s_model_score_rules.csv", model_name)
-score_rules_file <- file.path(model_dir, model_score_rules_file_name)
-
-rules_df <- getDataFromCSV(score_rules_file)
 
 # Set the name of the outcome - the one that was modeled.
 # This is dependent on the specific model used and can be extracted
 # from the model name, assuming no changes have been done to the naming process
 # outcome_name <- "PRO_PLACED_3years"
 outcome_name <- getOutcomeNamefromModelName(model_name)
-
 
 # Set the full path to the rds file with the new dataset that needs to be scored.
 #
@@ -179,7 +177,6 @@ data_file_name <- "birth_placements_pris_labeled.csv"
 data_rdata_file <- file.path(getwd(), data_file_name)
 new_data <- read.csv(data_rdata_file)
 data_name <- gsub(".csv", "", data_file_name)
-
 
 #change features names to upper-case in case
 colnames(new_data) <- toupper(colnames(new_data))
@@ -208,15 +205,14 @@ predictor_names <- setdiff(colnames(train_data), c(".outcome",  ".weights"))
 if (length(setdiff(predictor_names, colnames(new_data))) > 0)
   stop("the new data set does not have all the PRIs that the model train set has.")
 
-# create features that do not exist in 2000 cohort
+# create features that do not exist in the birth data and give value=0
 feature_list <- setdiff(predictor_names, colnames(new_data))
 for(feature in feature_list)
 {
   new_data[,feature]<-0
 }
 
-
-keep_features <- c("BID", "BTHSFN", "BCDOB","PRI_MOM_FIRSTBORN",
+keep_features <- c("BID","PRI_MOM_FIRSTBORN",
                    "PRI_MOM_FIRSTBORN_MISSING", "PRI_CHILD_FEMALE_OR_MISS", toupper(outcome_name),
                    grep("PRI.*_RACE", colnames(new_data), value = TRUE))
 
@@ -267,8 +263,6 @@ valid_outcome  <-
            (new_data %>% pull(toupper(outcome_name)) %>% is.na %>% any) == FALSE,
          TRUE,
          FALSE)
-
-
 
 if (valid_outcome) {
   message("\nModel performance evaluation on the new data set\n")
@@ -328,5 +322,4 @@ if (valid_outcome) {
               col_names = TRUE)
 }
 
-message("\nDONE")
 
