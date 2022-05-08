@@ -5,7 +5,8 @@ Following the steps below can guide you through cross validation of the CA PRM b
 ### Step 1: Birth data prep
 Prepare birth data by constructing those variables below.
 
-<img src="https://user-images.githubusercontent.com/17417861/164547439-83e5ede5-2bbd-4cd6-a19a-9aa29bbe5ab5.png" width="700">
+<img src="https://user-images.githubusercontent.com/17417861/167277252-54d372e3-6c8e-489b-8f26-f70fec52ddf4.png" width="700">
+
 
 ### Step 2: Link CPS records
 Link your CPS records to this birth dataset at the child level. You need the first placement start date ('PE_S_DT' in "%Y%m%d" format) and a child's birth date ('BIRTH_DT').
