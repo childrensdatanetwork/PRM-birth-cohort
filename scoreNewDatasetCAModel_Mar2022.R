@@ -12,6 +12,7 @@
 # 2) In the same directory, the models and data files are located. If this is not the case, then
 #    set the corresponding variables in the script to point to the right file paths
 
+
 library("readstata13")
 library("ggplot2")
 library("magrittr")
@@ -135,6 +136,8 @@ getPerformanceMetrics <- function(data_pred, # data frame with all predictions
   return(out)
 }
 
+
+
 # ------------------------------------------------------------------------------
 # MAIN CODE
 # ------------------------------------------------------------------------------
@@ -145,9 +148,11 @@ getPerformanceMetrics <- function(data_pred, # data frame with all predictions
 #set option: race or no race model
 option <- "birthNoRace"
 model_dir <- getwd()
-model_file_name <- paste0(option,"-PRO_PLACED_3YEARS-Lasso-Weighted-SiblingBlocked_woTrainingData.rds")
+model_file_name <- paste0(option,"-PRO_PLACED_3YEARS-Lasso-Weighted-SiblingBlocked_reduced.rds")
 model_rdata_file <- file.path(model_dir, model_file_name)
+
 model_object <- readRDS(model_rdata_file)
+
 
 # Set the full path to the model-specific score rules files
 # This will be automatically set assuming
@@ -155,11 +160,13 @@ model_object <- readRDS(model_rdata_file)
 # - the file is in he same folder as the model file
 model_name <- gsub(".rds", "", model_file_name)
 
+
 # Set the name of the outcome - the one that was modeled.
 # This is dependent on the specific model used and can be extracted
 # from the model name, assuming no changes have been done to the naming process
 # outcome_name <- "PRO_PLACED_3years"
 outcome_name <- getOutcomeNamefromModelName(model_name)
+
 
 # Set the full path to the rds file with the new dataset that needs to be scored.
 #
@@ -178,6 +185,7 @@ data_rdata_file <- file.path(getwd(), data_file_name)
 new_data <- read.csv(data_rdata_file)
 data_name <- gsub(".csv", "", data_file_name)
 
+
 #change features names to upper-case in case
 colnames(new_data) <- toupper(colnames(new_data))
 
@@ -191,6 +199,7 @@ res_dir <- file.path(paste0(getwd()),
                      sprintf("scoring_results_%s", data_name))
 createFolder(res_dir)
 
+
 #fix PRI names
 colnames(new_data)[colnames(new_data) == "PRI_CHILD_APGAR_SCORE_5MIN_MODER_ABNML"] <- "PRI_CHILD_APGAR_SCORE_5MIN_MODER"
 colnames(new_data)[colnames(new_data) == "PRI_CHILD_APGAR_SCORE_5MIN_REASSURING"] <- "PRI_CHILD_APGAR_SCORE_5MIN_REASS"
@@ -200,7 +209,7 @@ colnames(new_data)[colnames(new_data) == "PRI_CHILD_APGAR_SCORE_5MIN_REASSURING"
 message("\nCalculation of predictions and scores for the new data set\n")
 
 train_data <- model_object$trainingData
-predictor_names <- setdiff(colnames(train_data), c(".outcome",  ".weights"))
+predictor_names <- setdiff(train_data, c(".outcome",  ".weights"))
 
 if (length(setdiff(predictor_names, colnames(new_data))) > 0)
   stop("the new data set does not have all the PRIs that the model train set has.")
@@ -211,6 +220,7 @@ for(feature in feature_list)
 {
   new_data[,feature]<-0
 }
+
 
 keep_features <- c("BID","PRI_MOM_FIRSTBORN",
                    "PRI_MOM_FIRSTBORN_MISSING", "PRI_CHILD_FEMALE_OR_MISS", toupper(outcome_name),
@@ -263,6 +273,8 @@ valid_outcome  <-
            (new_data %>% pull(toupper(outcome_name)) %>% is.na %>% any) == FALSE,
          TRUE,
          FALSE)
+
+
 
 if (valid_outcome) {
   message("\nModel performance evaluation on the new data set\n")
@@ -321,5 +333,3 @@ if (valid_outcome) {
               path = file.path(res_dir, paste0(model_name, "_conf_matrix.csv")),
               col_names = TRUE)
 }
-
-
