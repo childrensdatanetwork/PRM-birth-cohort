@@ -180,7 +180,7 @@ code_prenatal_visits <- function(data)
 {
   data <- data %>% 
             rowwise() %>%
-              mutate(PRI_MOM_PRENATAL_VISIT_YES = ifelse(precare > 0, 1, 0),
+              mutate(PRI_MOM_PRENATAL_VISIT_YES = ifelse(!is.na(precare) & precare > 0, 1, 0),
                         PRI_MOM_PRENATAL_VISIT_MISS = ifelse(is.na(precare) | precare == "-", 1, 0))
   data
 }
