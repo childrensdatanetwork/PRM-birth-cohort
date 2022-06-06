@@ -19,6 +19,8 @@ library("magrittr")
 library("dplyr")
 library("knitr")
 library("kableExtra")
+library("hrbrthemes")
+library("here")
 
 # Load custom functions
 # Save the file "customFunctionsNew.R" in the same folder
@@ -333,3 +335,22 @@ if (valid_outcome) {
               path = file.path(res_dir, paste0(model_name, "_conf_matrix.csv")),
               col_names = TRUE)
 }
+
+
+# Distribution charts
+
+score_df$Observed2 <- as.factor(score_df$Observed)
+p <- ggplot(data=score_df, aes(x=Predicted)) + 
+  geom_density(fill="lightgray") + 
+  labs(title="Density Plot: Predicted Risk Scores",x="Scores", y = "Density")
+p2 <- p+geom_vline(aes(xintercept=cutoff_set[3]),
+                   color="blue", linetype="dashed", size=0.5) 
+p3 <- ggplot(data=score_df, aes(x=Predicted, group=Observed2, fill=Observed2)) +
+  geom_vline(aes(xintercept=cutoff_set[3]), color="blue", linetype="dashed", size=0.5) +
+  geom_density(adjust=1.5, alpha=.4) + scale_fill_discrete(name = "Placed in 3 years", labels = c("No", "Yes")) + 
+  labs(title="Density Plot: Predicted Risk Scores",x="Scores", y = "Density") +
+  theme(legend.position="top")
+
+ggsave(here("density_plot1.pdf"), p, height = 6, width = 7)
+ggsave(here("density_plot2.pdf"), p2, height = 6, width = 7)
+ggsave(here("density_plot3.pdf"), p3, height = 6, width = 7)
