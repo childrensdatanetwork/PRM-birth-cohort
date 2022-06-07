@@ -38,11 +38,11 @@ Additionally, create the below variables from CPS data. As they are for further 
 
 | Variables from CPS records                      |
 | ----------------------------------------------- |
-| (1) investigated (yes / no)                     |
+| (1) investigated (yes=1 / no=0)                     |
 | (2) date of first ever investigation            |
-| (3) substantiated (yes / no)                    |
+| (3) substantiated (yes=1 / no=0)                     |
 | (4) date of first ever substantiation           |
-| (5) placed in foster care (yes / no)            |
+| (5) placed in foster care (yes=1 / no=0)            |
 | (6) date of first ever placement in foster care |
 | (7) date of first ever referral if possible     |
 
