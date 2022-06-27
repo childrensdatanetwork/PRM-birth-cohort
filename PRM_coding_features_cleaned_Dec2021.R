@@ -41,10 +41,8 @@ code_mom_age <- function(data)
 code_paternity_missing <- function(data)
 {
   data <- data %>% 
-            rowwise() %>%
-              mutate(PRI_DAD_PATERNITY_MISSING = ifelse(is.na(fbthdate) | (fage == 99 & feduc == 9 &
-                                                        fracecode1 == 99 & fracecode2 == 99 & fracecode3 == 99 &
-                                                        fracecodem == 9), 1, 0))
+    rowwise() %>%
+    mutate(PRI_DAD_PATERNITY_MISSING = ifelse(is.na(fbthdate) | (fage == 99 & feduc == 9 & fracecodem == 9), 1, 0))
   data
 }
 
