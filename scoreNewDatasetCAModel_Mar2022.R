@@ -290,7 +290,16 @@ if (valid_outcome) {
   # based on the 20-groups partitioning
   cutoff_set <- c("standard" = 0.5,
                   "top 5% test" = rules_df2$Lower[rules_df2$RiskGroupName == "20"],
-                  "top 10% test" = rules_df2$Lower[rules_df2$RiskGroupName == "19"])
+                  "top 10% test" = rules_df2$Lower[rules_df2$RiskGroupName == "19"],
+                  "top 20% test" = rules_df2$Lower[rules_df2$RiskGroupName == "17"],
+                  "top 30% test" = rules_df2$Lower[rules_df2$RiskGroupName == "15"],
+                  "top 40% test" = rules_df2$Lower[rules_df2$RiskGroupName == "13"],
+                  "top 50% test" = rules_df2$Lower[rules_df2$RiskGroupName == "11"],
+                  "top 60% test" = rules_df2$Lower[rules_df2$RiskGroupName == "9"],
+                  "top 70% test" = rules_df2$Lower[rules_df2$RiskGroupName == "7"],
+                  "top 80% test" = rules_df2$Lower[rules_df2$RiskGroupName == "5"],
+                  "top 90% test" = rules_df2$Lower[rules_df2$RiskGroupName == "3"],
+                  "top 100% test" = rules_df2$Lower[rules_df2$RiskGroupName == "1"])
   
   # This flag should be the same as when the model was built,
   # and we extract it from the score rules
