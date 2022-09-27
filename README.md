@@ -1,6 +1,6 @@
-# PRM-birth-cohort
+# PRM birth cohort
 
-Following the steps below can guide you through cross validation of the CA PRM birth model using your birth records and CPS records. 
+Following the steps below can guide you through cross validation of the selected PRM birth model using your birth records and CPS records. 
 
 ### Step 1: Birth data preparation
 Prepare birth data by constructing the variables below.
