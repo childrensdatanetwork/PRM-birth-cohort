@@ -47,8 +47,8 @@ Additionally, create the below variables from CPS data. As they are for further 
 | (7) date of first ever referral if possible     |
 
 ### Step 3: Download all the files in the same folder.
-Then, run 'PRM_coding_features_cleaned_Dec2021.R'. This creates predicting and target features.
+Then, run 'PRMCodingFeaturesCleaned.R'. This creates predicting and target features.
 Don't forget to change 'setwd("working directory")' to your current working directory.
 
-### Step 4: Run 'scoreNewDatasetCAModel_Mar2022.R.' 
+### Step 4: Run 'scoreNewDataset.R.' 
 This is to generate prediction scores for each child. Again, change 'setwd("working directory")' to your current working directory.
