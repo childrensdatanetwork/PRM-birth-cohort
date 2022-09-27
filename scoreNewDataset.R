@@ -1,4 +1,4 @@
-# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------ 
 # Autor: K.Taskova
 # Revised by Eunhye Ahn for distribution (May 2022)
 # Descripcion: Generate scores on a new set given model and score rules
