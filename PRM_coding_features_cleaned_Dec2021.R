@@ -6,7 +6,7 @@ library("knitr")
 library("kableExtra")
 
 ####FUNCTIONS TO CODE PRIs###
-#codes if gender of child is female or missing
+#code if gender of child is female or missing
 code_child_female <- function(data)
 {
   #1: male, 2: female, 9: missing
@@ -17,7 +17,7 @@ code_child_female <- function(data)
   data
 }
 
-#codes mom age, continuous and in categories
+#code mom age, continuous and in categories
 code_mom_age <- function(data)
 {
   data$PRI_MOM_AGE <- data$mage
