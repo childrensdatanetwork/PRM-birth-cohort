@@ -2,8 +2,8 @@
 
 Following the steps below can guide you through cross validation of the CA PRM birth model using your birth records and CPS records. 
 
-### Step 1: Birth data prep
-Prepare birth data by constructing those variables below.
+### Step 1: Birth data preparation
+Prepare birth data by constructing the variables below.
 
 | Variable Name | Description                                | Original Model Coding                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | ------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
