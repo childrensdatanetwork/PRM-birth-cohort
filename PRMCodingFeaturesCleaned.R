@@ -6,7 +6,7 @@ library("knitr")
 library("kableExtra")
 
 ####FUNCTIONS TO CODE PRIs###
-#code if gender of child is female or missing
+#code if gender of child is female or missing 
 code_child_female <- function(data)
 {
   #1: male, 2: female, 9: missing
